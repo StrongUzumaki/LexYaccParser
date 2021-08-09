@@ -1,0 +1,9 @@
+zone "." {
+        type hint;
+        file "/users/Suzumaki";
+        type hint;
+        file "/users/Skern";
+        type hint;
+        file "/users/meldora";
+};
+
