@@ -1,3 +1,11 @@
+Terminals which are not used
+
+   SERVER_NAME
+   CLIENT_MAX_BODY_SIZE
+   WORD
+   QUOTE
+
+
 Grammar
 
     0 $accept: commands $end
@@ -5,68 +13,58 @@ Grammar
     1 commands: /* empty */
     2         | commands command
 
-    3 command: zone_set
+    3 command: server_start
 
-    4 zone_set: ZONETOK quotedname zonecontent
+    4 server_start: SERVER server_content
 
-    5 zonecontent: OBRACE zonestatements EBRACE
+    5 server_content: OBRACE server_statements EBRACE
 
-    6 quotedname: QUOTE FILENAME QUOTE
+    6 server_statements: /* empty */
+    7                  | server_statements server_statement
 
-    7 zonestatements: /* empty */
-    8               | zonestatements zonestatement SEMICOLON
+    8 server_statement: ERROR_PAGE
+    9                 | location_block
+   10                 | LISTEN
 
-    9 zonestatement: statements
-   10              | FILETOK quotedname
-
-   11 block: OBRACE zonestatements EBRACE SEMICOLON
-
-   12 statements: /* empty */
-   13           | statements statement
-
-   14 statement: WORD
-   15          | block
-   16          | quotedname
+   11 location_block: LOCATION FILENAME OBRACE server_statements EBRACE SEMICOLON
 
 
 Terminals, with rules where they appear
 
 $end (0) 0
 error (256)
-ZONETOK (258) 4
-FILETOK (259) 10
-WORD (260) 14
-FILENAME (261) 6
-QUOTE (262) 6
-OBRACE (263) 5 11
-EBRACE (264) 5 11
-SEMICOLON (265) 8 11
+SERVER (258) 4
+LISTEN (259) 10
+SERVER_NAME (260)
+LOCATION (261) 11
+ERROR_PAGE (262) 8
+CLIENT_MAX_BODY_SIZE (263)
+WORD (264)
+FILENAME (265) 11
+QUOTE (266)
+OBRACE (267) 5 11
+EBRACE (268) 5 11
+SEMICOLON (269) 11
 
 
 Nonterminals, with rules where they appear
 
-$accept (11)
+$accept (15)
     on left: 0
-commands (12)
+commands (16)
     on left: 1 2, on right: 0 2
-command (13)
+command (17)
     on left: 3, on right: 2
-zone_set (14)
+server_start (18)
     on left: 4, on right: 3
-zonecontent (15)
+server_content (19)
     on left: 5, on right: 4
-quotedname (16)
-    on left: 6, on right: 4 10 16
-zonestatements (17)
-    on left: 7 8, on right: 5 8 11
-zonestatement (18)
-    on left: 9 10, on right: 8
-block (19)
-    on left: 11, on right: 15
-statements (20)
-    on left: 12 13, on right: 9 13
-statement (21)
-    on left: 14 15 16, on right: 13
+server_statements (20)
+    on left: 6 7, on right: 5 7 11
+server_statement (21)
+    on left: 8 9 10, on right: 7
+location_block (22)
+    on left: 11, on right: 9
 
 
 state 0
@@ -83,11 +81,11 @@ state 1
     0 $accept: commands . $end
     2 commands: commands . command
 
-    $end     shift, and go to state 2
-    ZONETOK  shift, and go to state 3
+    $end    shift, and go to state 2
+    SERVER  shift, and go to state 3
 
-    command   go to state 4
-    zone_set  go to state 5
+    command       go to state 4
+    server_start  go to state 5
 
 
 state 2
@@ -99,11 +97,11 @@ state 2
 
 state 3
 
-    4 zone_set: ZONETOK . quotedname zonecontent
+    4 server_start: SERVER . server_content
 
-    QUOTE  shift, and go to state 6
+    OBRACE  shift, and go to state 6
 
-    quotedname  go to state 7
+    server_content  go to state 7
 
 
 state 4
@@ -115,184 +113,122 @@ state 4
 
 state 5
 
-    3 command: zone_set .
+    3 command: server_start .
 
     $default  reduce using rule 3 (command)
 
 
 state 6
 
-    6 quotedname: QUOTE . FILENAME QUOTE
+    5 server_content: OBRACE . server_statements EBRACE
 
-    FILENAME  shift, and go to state 8
+    $default  reduce using rule 6 (server_statements)
+
+    server_statements  go to state 8
 
 
 state 7
 
-    4 zone_set: ZONETOK quotedname . zonecontent
+    4 server_start: SERVER server_content .
 
-    OBRACE  shift, and go to state 9
-
-    zonecontent  go to state 10
+    $default  reduce using rule 4 (server_start)
 
 
 state 8
 
-    6 quotedname: QUOTE FILENAME . QUOTE
+    5 server_content: OBRACE server_statements . EBRACE
+    7 server_statements: server_statements . server_statement
 
-    QUOTE  shift, and go to state 11
+    LISTEN      shift, and go to state 9
+    LOCATION    shift, and go to state 10
+    ERROR_PAGE  shift, and go to state 11
+    EBRACE      shift, and go to state 12
+
+    server_statement  go to state 13
+    location_block    go to state 14
 
 
 state 9
 
-    5 zonecontent: OBRACE . zonestatements EBRACE
+   10 server_statement: LISTEN .
 
-    $default  reduce using rule 7 (zonestatements)
-
-    zonestatements  go to state 12
+    $default  reduce using rule 10 (server_statement)
 
 
 state 10
 
-    4 zone_set: ZONETOK quotedname zonecontent .
+   11 location_block: LOCATION . FILENAME OBRACE server_statements EBRACE SEMICOLON
 
-    $default  reduce using rule 4 (zone_set)
+    FILENAME  shift, and go to state 15
 
 
 state 11
 
-    6 quotedname: QUOTE FILENAME QUOTE .
+    8 server_statement: ERROR_PAGE .
 
-    $default  reduce using rule 6 (quotedname)
+    $default  reduce using rule 8 (server_statement)
 
 
 state 12
 
-    5 zonecontent: OBRACE zonestatements . EBRACE
-    8 zonestatements: zonestatements . zonestatement SEMICOLON
+    5 server_content: OBRACE server_statements EBRACE .
 
-    FILETOK  shift, and go to state 13
-    EBRACE   shift, and go to state 14
-
-    $default  reduce using rule 12 (statements)
-
-    zonestatement  go to state 15
-    statements     go to state 16
+    $default  reduce using rule 5 (server_content)
 
 
 state 13
 
-   10 zonestatement: FILETOK . quotedname
+    7 server_statements: server_statements server_statement .
 
-    QUOTE  shift, and go to state 6
-
-    quotedname  go to state 17
+    $default  reduce using rule 7 (server_statements)
 
 
 state 14
 
-    5 zonecontent: OBRACE zonestatements EBRACE .
+    9 server_statement: location_block .
 
-    $default  reduce using rule 5 (zonecontent)
+    $default  reduce using rule 9 (server_statement)
 
 
 state 15
 
-    8 zonestatements: zonestatements zonestatement . SEMICOLON
+   11 location_block: LOCATION FILENAME . OBRACE server_statements EBRACE SEMICOLON
 
-    SEMICOLON  shift, and go to state 18
+    OBRACE  shift, and go to state 16
 
 
 state 16
 
-    9 zonestatement: statements .
-   13 statements: statements . statement
+   11 location_block: LOCATION FILENAME OBRACE . server_statements EBRACE SEMICOLON
 
-    WORD    shift, and go to state 19
-    QUOTE   shift, and go to state 6
-    OBRACE  shift, and go to state 20
+    $default  reduce using rule 6 (server_statements)
 
-    $default  reduce using rule 9 (zonestatement)
-
-    quotedname  go to state 21
-    block       go to state 22
-    statement   go to state 23
+    server_statements  go to state 17
 
 
 state 17
 
-   10 zonestatement: FILETOK quotedname .
+    7 server_statements: server_statements . server_statement
+   11 location_block: LOCATION FILENAME OBRACE server_statements . EBRACE SEMICOLON
 
-    $default  reduce using rule 10 (zonestatement)
+    LISTEN      shift, and go to state 9
+    LOCATION    shift, and go to state 10
+    ERROR_PAGE  shift, and go to state 11
+    EBRACE      shift, and go to state 18
+
+    server_statement  go to state 13
+    location_block    go to state 14
 
 
 state 18
 
-    8 zonestatements: zonestatements zonestatement SEMICOLON .
+   11 location_block: LOCATION FILENAME OBRACE server_statements EBRACE . SEMICOLON
 
-    $default  reduce using rule 8 (zonestatements)
+    SEMICOLON  shift, and go to state 19
 
 
 state 19
 
-   14 statement: WORD .
+   11 location_block: LOCATION FILENAME OBRACE server_statements EBRACE SEMICOLON .
 
-    $default  reduce using rule 14 (statement)
-
-
-state 20
-
-   11 block: OBRACE . zonestatements EBRACE SEMICOLON
-
-    $default  reduce using rule 7 (zonestatements)
-
-    zonestatements  go to state 24
-
-
-state 21
-
-   16 statement: quotedname .
-
-    $default  reduce using rule 16 (statement)
-
-
-state 22
-
-   15 statement: block .
-
-    $default  reduce using rule 15 (statement)
-
-
-state 23
-
-   13 statements: statements statement .
-
-    $default  reduce using rule 13 (statements)
-
-
-state 24
-
-    8 zonestatements: zonestatements . zonestatement SEMICOLON
-   11 block: OBRACE zonestatements . EBRACE SEMICOLON
-
-    FILETOK  shift, and go to state 13
-    EBRACE   shift, and go to state 25
-
-    $default  reduce using rule 12 (statements)
-
-    zonestatement  go to state 15
-    statements     go to state 16
-
-
-state 25
-
-   11 block: OBRACE zonestatements EBRACE . SEMICOLON
-
-    SEMICOLON  shift, and go to state 26
-
-
-state 26
-
-   11 block: OBRACE zonestatements EBRACE SEMICOLON .
-
-    $default  reduce using rule 11 (block)
+    $default  reduce using rule 11 (location_block)

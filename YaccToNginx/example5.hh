@@ -39,25 +39,33 @@
    /* Put the tokens into the symbol table, so that GDB and other debuggers
       know about them.  */
    enum yytokentype {
-     ZONETOK = 258,
-     FILETOK = 259,
-     WORD = 260,
-     FILENAME = 261,
-     QUOTE = 262,
-     OBRACE = 263,
-     EBRACE = 264,
-     SEMICOLON = 265
+     SERVER = 258,
+     LISTEN = 259,
+     SERVER_NAME = 260,
+     LOCATION = 261,
+     ERROR_PAGE = 262,
+     CLIENT_MAX_BODY_SIZE = 263,
+     WORD = 264,
+     FILENAME = 265,
+     QUOTE = 266,
+     OBRACE = 267,
+     EBRACE = 268,
+     SEMICOLON = 269
    };
 #endif
 /* Tokens.  */
-#define ZONETOK 258
-#define FILETOK 259
-#define WORD 260
-#define FILENAME 261
-#define QUOTE 262
-#define OBRACE 263
-#define EBRACE 264
-#define SEMICOLON 265
+#define SERVER 258
+#define LISTEN 259
+#define SERVER_NAME 260
+#define LOCATION 261
+#define ERROR_PAGE 262
+#define CLIENT_MAX_BODY_SIZE 263
+#define WORD 264
+#define FILENAME 265
+#define QUOTE 266
+#define OBRACE 267
+#define EBRACE 268
+#define SEMICOLON 269
 
 
 

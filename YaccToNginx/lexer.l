@@ -15,6 +15,7 @@ error_page				return ERROR_PAGE;
 client_max_body_size	return CLIENT_MAX_BODY_SIZE;
 [a-zA-Z][a-zA-Z0-9]*    yylval=strdup(yytext); return WORD;
 [a-zA-Z0-9\/.-]+        yylval=strdup(yytext); return FILENAME;
+"#".*\n					;
 \"                      return QUOTE;
 \{                      return OBRACE;
 \}                      return EBRACE;

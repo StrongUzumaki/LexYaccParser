@@ -3,13 +3,16 @@
 #include "Server.hpp"
 #include <string.h>
 #include <vector>
+//int yydebug=1;
 #define YYSTYPE char *
+extern char	*yytext;
+#define YYDEBUG_LEXER_TEXT yytext
 int yyparse(std::vector<Server> *servers);
 extern "C"
 {
 	void yyerror(std::vector<Server> *servers, const char *str)
 	{
-    	//fprintf(stderr,"ошибка: %s\n",str);
+    	fprintf(stderr,"ошибка: %s\n",str);
 	}
 	int yylex(); 
     int yywrap()
@@ -20,11 +23,43 @@ extern "C"
 
 %}
 
-%token ZONETOK FILETOK WORD FILENAME QUOTE OBRACE EBRACE SEMICOLON;
+%token SERVER LISTEN SERVER_NAME LOCATION ERROR_PAGE CLIENT_MAX_BODY_SIZE WORD FILENAME QUOTE OBRACE EBRACE SEMICOLON;
 %parse-param {std::vector<Server> *servers}
 %%
+commands:
+		| commands command
+		;
 
-commands: /* empty */
+command:
+	   server_start 
+
+server_start:
+		SERVER server_content
+		{
+				
+		}
+
+server_content:
+		OBRACE server_statements EBRACE
+		{
+		}
+
+server_statements:
+		|	server_statements server_statement
+		;
+
+server_statement: ERROR_PAGE | location_block | LISTEN 
+
+location_block:
+	 LOCATION FILENAME OBRACE server_statements EBRACE SEMICOLON
+
+/*quotedname:
+		  QUOTE FILENAME QUOTE
+		  {
+				$$=$2;
+		  }
+/*
+commands: 
         | commands command
         ;
 
@@ -70,6 +105,6 @@ statements:
 
 statement: WORD | block | quotedname
 
-
+*/
 %%
 //#include "lex.yy.c"
