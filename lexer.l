@@ -16,7 +16,7 @@ client_max_body_size	printf(" CLIENT_MAX_BODY_SIZE");
 =						printf(" =");
 [0-9]+  				 printf(" NUMBER");//yylval=strdup(yytext);
 [a-zA-Z][a-zA-Z0-9_]*   printf(" WORD");//yylval=strdup(yytext);
-
+/b((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\.|$)){4}/b printf(" IP_ADDRESS");
 [a-zA-Z0-9\/.-]+        printf(" FILENAME");//yylval=strdup(yytext);
 "#".*\n					;
 \"                      printf(" QUOTE");
