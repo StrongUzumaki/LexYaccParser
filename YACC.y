@@ -36,7 +36,7 @@ command:
 server_start:
 		SERVER server_content
 		{
-				
+			Server tmp = Server();		
 		}
 
 server_content:
