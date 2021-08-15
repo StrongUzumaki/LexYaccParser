@@ -1,43 +1,42 @@
 %{
-//	#define YYSTYPE char *
+	#define YYSTYPE char *
 	#include <stdio.h>
-//	#include "example5.hh"
-//	int yylex(void);  
+	#include "YACC.hh"
+	int yylex(void);  
 %}
 
 %%
 	/*
-	server					printf(" SERVER");
-	listen					printf(" LISTEN");
-	server_name				printf(" SERVER_NAME");
-	location				printf(" LOCATION");
-	error_page				printf(" ERROR_PAGE");
-	client_max_body_size	printf(" CLIENT_MAX_BODY_SIZE");
+	server | 
+	listen | 
+	server_name | 
+	location | 
+	error_page | 
+	client_max_body_size 			printf(" DIRECTIVE");
 	*/
 
-server | 
-listen | 
-server_name | 
-location | 
-error_page | 
-client_max_body_size 			printf(" DIRECTIVE");
-
-
-=						printf(" =");
-:						printf(" COLON");
-root					printf(" ROOT");
-[0-9]+[.][0-9]+[.][0-9]+[.][0-9]+	printf(" IP");
-$[a-zA-Z0-9_]+			printf(" ENV");
-[0-9]+  				 printf(" NUMBER");//yylval=strdup(yytext);
-[a-zA-Z][a-zA-Z0-9_]*   printf(" WORD");//yylval=strdup(yytext);
-[a-zA-Z0-9\/.-]+        printf(" PATH");//yylval=strdup(yytext);
+	/*[root]					return ROOT;*/
+limit_except			return LIMIT_EXCEPT;
+on|off					return STATE;		
+server					return SERVER;
+listen					return LISTEN;
+server_name				return SERVER_NAME;
+location				return LOCATION;
+error_page				return ERROR_PAGE;
+client_max_body_size	return CLIENT_MAX_BODY_SIZE;
+[0-9]+[.][0-9]+[.][0-9]+[.][0-9]+	 return IP;
+=						return EQUAL;
+:						return COLON;
+[0-9]+  				return NUMBER;//yylval=strdup(yytext);
+[a-zA-Z][a-zA-Z0-9_]*   return WORD;//yylval=strdup(yytext);
+[a-zA-Z0-9\/.-]+        return PATH;//yylval=strdup(yytext);
 "#".*					;
-\"                      printf(" QUOTE");
-\{                      printf(" OBRACE");
-\}                      printf(" EBRACE");
-;                       printf(" SEMICOLON");
-\n                      printf("\n");/* пропускаем концы строк */;
+\"                      return QUOTE;
+\{                      return OBRACE;
+\}                      return EBRACE;
+;                       return SEMICOLON;
+\n                      ;/* пропускаем концы строк */;
 [ \t]+                  /* пропускаем пробелы */;
 %%
 
-//#define YYSTYPE char *
+#define YYSTYPE char *

@@ -39,33 +39,51 @@
    /* Put the tokens into the symbol table, so that GDB and other debuggers
       know about them.  */
    enum yytokentype {
-     SERVER = 258,
-     LISTEN = 259,
-     SERVER_NAME = 260,
-     LOCATION = 261,
-     ERROR_PAGE = 262,
-     CLIENT_MAX_BODY_SIZE = 263,
-     WORD = 264,
-     FILENAME = 265,
-     QUOTE = 266,
-     OBRACE = 267,
-     EBRACE = 268,
-     SEMICOLON = 269
+     STATE = 258,
+     COLON = 259,
+     IP = 260,
+     AUTOINDEX = 261,
+     PATH = 262,
+     NUMBER = 263,
+     ROOT = 264,
+     LIMIT_EXCEPT = 265,
+     EQUAL = 266,
+     SERVER = 267,
+     LISTEN = 268,
+     SERVER_NAME = 269,
+     LOCATION = 270,
+     ERROR_PAGE = 271,
+     CLIENT_MAX_BODY_SIZE = 272,
+     WORD = 273,
+     FILENAME = 274,
+     QUOTE = 275,
+     OBRACE = 276,
+     EBRACE = 277,
+     SEMICOLON = 278
    };
 #endif
 /* Tokens.  */
-#define SERVER 258
-#define LISTEN 259
-#define SERVER_NAME 260
-#define LOCATION 261
-#define ERROR_PAGE 262
-#define CLIENT_MAX_BODY_SIZE 263
-#define WORD 264
-#define FILENAME 265
-#define QUOTE 266
-#define OBRACE 267
-#define EBRACE 268
-#define SEMICOLON 269
+#define STATE 258
+#define COLON 259
+#define IP 260
+#define AUTOINDEX 261
+#define PATH 262
+#define NUMBER 263
+#define ROOT 264
+#define LIMIT_EXCEPT 265
+#define EQUAL 266
+#define SERVER 267
+#define LISTEN 268
+#define SERVER_NAME 269
+#define LOCATION 270
+#define ERROR_PAGE 271
+#define CLIENT_MAX_BODY_SIZE 272
+#define WORD 273
+#define FILENAME 274
+#define QUOTE 275
+#define OBRACE 276
+#define EBRACE 277
+#define SEMICOLON 278
 
 
 

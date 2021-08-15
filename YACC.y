@@ -23,7 +23,9 @@ extern "C"
 
 %}
 
-%token SERVER LISTEN SERVER_NAME LOCATION ERROR_PAGE CLIENT_MAX_BODY_SIZE WORD FILENAME QUOTE OBRACE EBRACE SEMICOLON;
+	%token STATE COLON IP AUTOINDEX PATH NUMBER ROOT LIMIT_EXCEPT EQUAL  SERVER LISTEN SERVER_NAME LOCATION ERROR_PAGE CLIENT_MAX_BODY_SIZE WORD FILENAME QUOTE OBRACE EBRACE SEMICOLON;
+ /*%token EQUAL DIRECTIVE WORD FILENAME QUOTE OBRACE EBRACE SEMICOLON LIMIT_EXCEPT;*/
+
 %parse-param {std::vector<Server> *servers}
 %%
 commands:
@@ -36,7 +38,7 @@ command:
 server_start:
 		SERVER server_content
 		{
-			Server tmp = Server();		
+			Server tmp = Server("kek");		
 		}
 
 server_content:
@@ -48,63 +50,34 @@ server_statements:
 		|	server_statements server_statement
 		;
 
-server_statement: ERROR_PAGE | location_block | LISTEN 
+server_statement: error_page | location_block | listen | SERVER_NAME | LOCATION | CLIENT_MAX_BODY_SIZE; 
+
+listen: LISTEN what_to_listen SEMICOLON
+
+what_to_listen: IP COLON NUMBER | IP | NUMBER 
+
+error_page: 
+		error_num PATH 
+		|
+		error_num EQUAL PATH	
+		{
+			Server("lol");
+		}
+
+error_num:
+		 | error_num NUMBER
+
 
 location_block:
-	 LOCATION FILENAME OBRACE server_statements EBRACE SEMICOLON
+	 LOCATION FILENAME OBRACE location_statements EBRACE SEMICOLON
 
-/*quotedname:
-		  QUOTE FILENAME QUOTE
-		  {
-				$$=$2;
-		  }
-/*
-commands: 
-        | commands command
-        ;
+location_statements: 
+		| location_statements location_statement
 
-command:
-	   zone_set
-        ;
+location_statement:	LIMIT_EXCEPT | autoindex | ROOT  /*http_redirection  | default_file*/ 
 
-zone_set:
-		ZONETOK quotedname zonecontent
-		{
-			//Server$2;
-			//printf("Найдена полная зона для '%s'\n", $2);
-		}
-		;
-zonecontent:
-		   OBRACE zonestatements EBRACE
-quotedname:
-		  QUOTE FILENAME QUOTE
-		  {
-				$$=$2;
-		  }
-zonestatements:
-			  |
-			  zonestatements zonestatement SEMICOLON
-			  ;
-zonestatement:
-			statements
-			|
-			FILETOK	quotedname
-			{
-				std::cout << "Обнаружено имя файла зоны '"  << $2 << "\'" << std::endl;
-				servers->push_back(Server((std::string)$2));
-				std::cout << "Server is created" << std::endl;	
-			}
-			;
-block: 
-        OBRACE zonestatements EBRACE SEMICOLON
-        ;
+autoindex:
+		 AUTOINDEX STATE;
 
-statements:
-        | statements statement
-        ;
-
-statement: WORD | block | quotedname
-
-*/
 %%
 //#include "lex.yy.c"

@@ -11,6 +11,7 @@ server {
     }
 
     location /fetch/ {
-        proxy_pass http://backend/;
+		limit_except	GET POST DELETE
+		autoindex	on;
     }
 }
