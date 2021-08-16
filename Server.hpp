@@ -5,6 +5,9 @@
 class Server{
 
 	public:
+		
+		
+		void	setServerName(std::string server_name);
 		Server(std::string filename){
 		   	this->filename = filename;
 		};	
@@ -13,6 +16,7 @@ class Server{
 			return filename;
 		}
 	private:
+		std::string	server_name;
 		std::string filename;
 };
 #endif

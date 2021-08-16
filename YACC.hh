@@ -39,51 +39,53 @@
    /* Put the tokens into the symbol table, so that GDB and other debuggers
       know about them.  */
    enum yytokentype {
-     STATE = 258,
-     COLON = 259,
-     IP = 260,
-     AUTOINDEX = 261,
-     PATH = 262,
-     NUMBER = 263,
-     ROOT = 264,
-     LIMIT_EXCEPT = 265,
-     EQUAL = 266,
-     SERVER = 267,
-     LISTEN = 268,
-     SERVER_NAME = 269,
-     LOCATION = 270,
-     ERROR_PAGE = 271,
-     CLIENT_MAX_BODY_SIZE = 272,
-     WORD = 273,
-     FILENAME = 274,
-     QUOTE = 275,
-     OBRACE = 276,
-     EBRACE = 277,
-     SEMICOLON = 278
+     HTTP_METHOD = 258,
+     STATE = 259,
+     COLON = 260,
+     IP = 261,
+     AUTOINDEX = 262,
+     PATH = 263,
+     NUMBER = 264,
+     ROOT = 265,
+     LIMIT_EXCEPT = 266,
+     EQUAL = 267,
+     SERVER = 268,
+     LISTEN = 269,
+     SERVER_NAME = 270,
+     LOCATION = 271,
+     ERROR_PAGE = 272,
+     CLIENT_MAX_BODY_SIZE = 273,
+     WORD = 274,
+     FILENAME = 275,
+     QUOTE = 276,
+     OBRACE = 277,
+     EBRACE = 278,
+     SEMICOLON = 279
    };
 #endif
 /* Tokens.  */
-#define STATE 258
-#define COLON 259
-#define IP 260
-#define AUTOINDEX 261
-#define PATH 262
-#define NUMBER 263
-#define ROOT 264
-#define LIMIT_EXCEPT 265
-#define EQUAL 266
-#define SERVER 267
-#define LISTEN 268
-#define SERVER_NAME 269
-#define LOCATION 270
-#define ERROR_PAGE 271
-#define CLIENT_MAX_BODY_SIZE 272
-#define WORD 273
-#define FILENAME 274
-#define QUOTE 275
-#define OBRACE 276
-#define EBRACE 277
-#define SEMICOLON 278
+#define HTTP_METHOD 258
+#define STATE 259
+#define COLON 260
+#define IP 261
+#define AUTOINDEX 262
+#define PATH 263
+#define NUMBER 264
+#define ROOT 265
+#define LIMIT_EXCEPT 266
+#define EQUAL 267
+#define SERVER 268
+#define LISTEN 269
+#define SERVER_NAME 270
+#define LOCATION 271
+#define ERROR_PAGE 272
+#define CLIENT_MAX_BODY_SIZE 273
+#define WORD 274
+#define FILENAME 275
+#define QUOTE 276
+#define OBRACE 277
+#define EBRACE 278
+#define SEMICOLON 279
 
 
 

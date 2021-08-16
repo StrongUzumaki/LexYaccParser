@@ -14,8 +14,11 @@
 	error_page | 
 	client_max_body_size 			printf(" DIRECTIVE");
 	*/
-
-	/*[root]					return ROOT;*/
+GET | 
+POST |
+DELETE					return HTTP_METHOD;
+root					{/*printf("ROOT");*/return ROOT;}
+autoindex				return AUTOINDEX;
 limit_except			return LIMIT_EXCEPT;
 on|off					return STATE;		
 server					return SERVER;
