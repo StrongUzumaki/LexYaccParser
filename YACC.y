@@ -40,40 +40,43 @@ commands:
 command:
 	   server_start 
 
-server_start:
-		SERVER server_content
+server_start:	SERVER 
+				{
+					std::cout << "Server created" << std::endl;
+					servers->push_back(Server());		
+				}
+				server_content
+
+server_content:	OBRACE server_statements EBRACE
+
+server_statements:	|	server_statements server_statement;
+
+server_statement: root | error_page | location_block | listen | server_names  | client_max_body_size; 
+
+root:	ROOT PATH SEMICOLON  
 		{
-			//char *tmp = strdup($0);
-			printf("%s\n", $1);
-			//servers->push_back(Server());		
-		};
-
-server_content:
-		OBRACE server_statements EBRACE
-		{
-		}
-
-server_statements:
-		|	server_statements server_statement
-		;
-
-server_statement: root | error_page | location_block | listen | server_name  | client_max_body_size; 
-
-root:
-	ROOT PATH SEMICOLON  
+			servers->back().setRoot($1);
+		}	
 
 error_page: 
 		ERROR_PAGE error_num PATH SEMICOLON 
+		{
+			servers->back().setErrorPage($3);
+		}
 		|
 		ERROR_PAGE error_num EQUAL PATH	SEMICOLON
 		{
+			servers->back().setErrorPage($4);
 		}
 
 error_num:
 		 | error_num NUMBER
 
-location_block:
-	 LOCATION PATH OBRACE location_statements EBRACE 
+location_block:	LOCATION PATH OBRACE 
+				{
+					servers->back().getLocations().push_back(Location($2));
+				}
+				location_statements EBRACE 
 
 location_statements: 
 		| location_statements location_statement
@@ -82,33 +85,43 @@ location_statement:	autoindex | root | limit_except | error_page /*http_redirect
 
 limit_except: LIMIT_EXCEPT what_to_except SEMICOLON
 
-what_to_except:
-		/* empty */ 
-		| what_to_except HTTP_METHOD
+what_to_except:	|	what_to_except HTTP_METHOD
+					{
+					servers->back().getLocations().back().setLimitexcept($2);
+					}
 
-autoindex:
-		 AUTOINDEX STATE SEMICOLON
+autoindex:	AUTOINDEX STATE SEMICOLON
+			{
+				int state = !strcmp($2, "on");
+				servers->back().getLocations().back().setAutoindex(state);
+			}
 
 listen: LISTEN what_to_listen SEMICOLON
 
-what_to_listen: IP COLON NUMBER | IP | NUMBER 
+what_to_listen: IP COLON NUMBER 
+				{
+					servers->back().setListen($1,$2);
+				}
+				| IP 
+				{
+					servers->back().setListen($1);
+				}
+				| NUMBER 
+				{
+					servers->back().setListen($1);
+				}
 
-server_name: SERVER_NAME PATH PATH SEMICOLON
-{
-//	servers->back().setServerName((std::string)$1);
-}
-/*
-server_names: | server_names PATH
-{
-	if($2)
-		$$ = $2;
-		//	printf("%s\n",$2);
-		//std::cout << $1;
-		//servers->back().setServerName((std::string)$1);
-}
-*/
-client_max_body_size: CLIENT_MAX_BODY_SIZE NUMBER SEMICOLON
+server_names: SERVER_NAME server_name  SEMICOLON
 
+server_name: |	server_name PATH
+				{
+					servers->back().addServerName((std::string)$2);
+				}
+
+client_max_body_size:	CLIENT_MAX_BODY_SIZE NUMBER SEMICOLON
+						{
+							servers->back().getLocations().back().setClientMaxBodySize($2);	
+						}
 %%
 
 int yylex(void);  

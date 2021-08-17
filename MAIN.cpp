@@ -13,4 +13,6 @@ int main(int ac, char *av[])
 	std::vector<Server> servers;
 	dup2(open(av[1],O_CREAT), 0);
 	yyparse(&servers);
+	for (std::vector<std::string>::const_iterator i = servers.back().getServerNames().begin(); i != servers.back().getServerNames().end(); ++i)
+		std::cout << *i << std::endl;
 }
