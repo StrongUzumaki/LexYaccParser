@@ -1,14 +1,14 @@
-/* A Bison parser, made by GNU Bison 2.3.  */
+/* A Bison parser, made by GNU Bison 3.5.1.  */
 
-/* Skeleton interface for Bison's Yacc-like parsers in C
+/* Bison interface for Yacc-like parsers in C
 
-   Copyright (C) 1984, 1989, 1990, 2000, 2001, 2002, 2003, 2004, 2005, 2006
-   Free Software Foundation, Inc.
+   Copyright (C) 1984, 1989-1990, 2000-2015, 2018-2020 Free Software Foundation,
+   Inc.
 
-   This program is free software; you can redistribute it and/or modify
+   This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
-   the Free Software Foundation; either version 2, or (at your option)
-   any later version.
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -16,9 +16,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 51 Franklin Street, Fifth Floor,
-   Boston, MA 02110-1301, USA.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 /* As a special exception, you may create a larger work that contains
    part or all of the Bison parser skeleton and distribute that work
@@ -33,46 +31,58 @@
    This special exception was added by the Free Software Foundation in
    version 2.2 of Bison.  */
 
-/* Tokens.  */
+/* Undocumented macros, especially those whose name start with YY_,
+   are private implementation details.  Do not rely on them.  */
+
+#ifndef YY_YY_YACC_HH_INCLUDED
+# define YY_YY_YACC_HH_INCLUDED
+/* Debug traces.  */
+#ifndef YYDEBUG
+# define YYDEBUG 1
+#endif
+#if YYDEBUG
+extern int yydebug;
+#endif
+
+/* Token type.  */
 #ifndef YYTOKENTYPE
 # define YYTOKENTYPE
-   /* Put the tokens into the symbol table, so that GDB and other debuggers
-      know about them.  */
-   enum yytokentype {
-     HTTP_METHOD = 258,
-     STATE = 259,
-     COLON = 260,
-     IP = 261,
-     AUTOINDEX = 262,
-     PATH = 263,
-     NUMBER = 264,
-     ROOT = 265,
-     LIMIT_EXCEPT = 266,
-     EQUAL = 267,
-     SERVER = 268,
-     LISTEN = 269,
-     SERVER_NAME = 270,
-     LOCATION = 271,
-     ERROR_PAGE = 272,
-     CLIENT_MAX_BODY_SIZE = 273,
-     WORD = 274,
-     FILENAME = 275,
-     QUOTE = 276,
-     OBRACE = 277,
-     EBRACE = 278,
-     SEMICOLON = 279
-   };
+  enum yytokentype
+  {
+    QUOTE = 258,
+    OBRACE = 259,
+    EBRACE = 260,
+    SEMICOLON = 261,
+    COLON = 262,
+    HTTP_METHOD = 263,
+    NUMBER = 264,
+    WORD = 265,
+    STATE = 266,
+    EQUAL = 267,
+    SERVER = 268,
+    LISTEN = 269,
+    SERVER_NAME = 270,
+    LOCATION = 271,
+    ERROR_PAGE = 272,
+    CLIENT_MAX_BODY_SIZE = 273,
+    IP = 274,
+    AUTOINDEX = 275,
+    PATH = 276,
+    ROOT = 277,
+    LIMIT_EXCEPT = 278,
+    FILENAME = 279
+  };
 #endif
 /* Tokens.  */
-#define HTTP_METHOD 258
-#define STATE 259
-#define COLON 260
-#define IP 261
-#define AUTOINDEX 262
-#define PATH 263
+#define QUOTE 258
+#define OBRACE 259
+#define EBRACE 260
+#define SEMICOLON 261
+#define COLON 262
+#define HTTP_METHOD 263
 #define NUMBER 264
-#define ROOT 265
-#define LIMIT_EXCEPT 266
+#define WORD 265
+#define STATE 266
 #define EQUAL 267
 #define SERVER 268
 #define LISTEN 269
@@ -80,22 +90,23 @@
 #define LOCATION 271
 #define ERROR_PAGE 272
 #define CLIENT_MAX_BODY_SIZE 273
-#define WORD 274
-#define FILENAME 275
-#define QUOTE 276
-#define OBRACE 277
-#define EBRACE 278
-#define SEMICOLON 279
+#define IP 274
+#define AUTOINDEX 275
+#define PATH 276
+#define ROOT 277
+#define LIMIT_EXCEPT 278
+#define FILENAME 279
 
-
-
-
+/* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef int YYSTYPE;
-# define yystype YYSTYPE /* obsolescent; will be withdrawn */
-# define YYSTYPE_IS_DECLARED 1
 # define YYSTYPE_IS_TRIVIAL 1
+# define YYSTYPE_IS_DECLARED 1
 #endif
+
 
 extern YYSTYPE yylval;
 
+int yyparse (std::vector<Server> *servers);
+
+#endif /* !YY_YY_YACC_HH_INCLUDED  */

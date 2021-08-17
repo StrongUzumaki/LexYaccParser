@@ -3,6 +3,8 @@
 #include "Server.hpp"
 #include <string.h>
 #include <vector>
+//DELETE THIS SHIT ON MAC
+int yylex(void);  
 //int yydebug=1;
 #define YYSTYPE char *
 extern char	*yytext;
@@ -14,7 +16,7 @@ extern "C"
 	{
 		fprintf(stderr,"ошибка: %s\n",str);
 	}
-	int yylex(); 
+	//int yylex(); 
     int yywrap()
     {
 		return 1;
@@ -23,7 +25,10 @@ extern "C"
 
 %}
 
-	%token HTTP_METHOD STATE COLON IP AUTOINDEX PATH NUMBER ROOT LIMIT_EXCEPT EQUAL  SERVER LISTEN SERVER_NAME LOCATION ERROR_PAGE CLIENT_MAX_BODY_SIZE WORD FILENAME QUOTE OBRACE EBRACE SEMICOLON;
+%token	QUOTE OBRACE EBRACE SEMICOLON COLON HTTP_METHOD NUMBER WORD STATE  EQUAL
+		SERVER LISTEN SERVER_NAME LOCATION ERROR_PAGE CLIENT_MAX_BODY_SIZE  
+		IP AUTOINDEX PATH  ROOT LIMIT_EXCEPT 
+		FILENAME ;
  /*%token EQUAL DIRECTIVE WORD FILENAME QUOTE OBRACE EBRACE SEMICOLON LIMIT_EXCEPT;*/
 
 %parse-param {std::vector<Server> *servers}
@@ -38,8 +43,10 @@ command:
 server_start:
 		SERVER server_content
 		{
-			Server tmp = Server("kek");		
-		}
+			//char *tmp = strdup($0);
+			printf("%s\n", $1);
+			//servers->push_back(Server());		
+		};
 
 server_content:
 		OBRACE server_statements EBRACE
@@ -86,15 +93,22 @@ listen: LISTEN what_to_listen SEMICOLON
 
 what_to_listen: IP COLON NUMBER | IP | NUMBER 
 
-server_name: SERVER_NAME server_names SEMICOLON
-
+server_name: SERVER_NAME PATH PATH SEMICOLON
+{
+//	servers->back().setServerName((std::string)$1);
+}
+/*
 server_names: | server_names PATH
 {
-	 //std::cout << $0;
-	//servers->back().setServerName((std::string)$1);
+	if($2)
+		$$ = $2;
+		//	printf("%s\n",$2);
+		//std::cout << $1;
+		//servers->back().setServerName((std::string)$1);
 }
-
+*/
 client_max_body_size: CLIENT_MAX_BODY_SIZE NUMBER SEMICOLON
 
 %%
-//#include "lex.yy.c"
+
+int yylex(void);  

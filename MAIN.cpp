@@ -9,7 +9,7 @@ extern int yydebug;
 
 int main(int ac, char *av[])
 {
-	yydebug = 1;
+	yydebug = 0;
 	std::vector<Server> servers;
 	dup2(open(av[1],O_CREAT), 0);
 	yyparse(&servers);

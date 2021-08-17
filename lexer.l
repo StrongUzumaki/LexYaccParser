@@ -1,6 +1,10 @@
 %{
 	#define YYSTYPE char *
 	#include <stdio.h>
+	//DELETE THIS SHIT ON MAC	
+	#include <vector>
+	#include "Server.hpp"
+	//IM SERIOUS
 	#include "YACC.hh"
 	int yylex(void);  
 %}

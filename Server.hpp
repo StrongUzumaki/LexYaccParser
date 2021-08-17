@@ -8,15 +8,11 @@ class Server{
 		
 		
 		void	setServerName(std::string server_name);
-		Server(std::string filename){
-		   	this->filename = filename;
-		};	
+		Server(){};	
 		std::string	getName(){
-
-			return filename;
+			return server_name;
 		}
 	private:
 		std::string	server_name;
-		std::string filename;
 };
 #endif

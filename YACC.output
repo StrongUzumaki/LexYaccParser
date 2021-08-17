@@ -1,15 +1,15 @@
-Terminals which are not used
+Terminals unused in grammar
 
-   WORD
-   FILENAME
-   QUOTE
+    QUOTE
+    WORD
+    FILENAME
 
 
 Grammar
 
     0 $accept: commands $end
 
-    1 commands: /* empty */
+    1 commands: %empty
     2         | commands command
 
     3 command: server_start
@@ -18,7 +18,7 @@ Grammar
 
     5 server_content: OBRACE server_statements EBRACE
 
-    6 server_statements: /* empty */
+    6 server_statements: %empty
     7                  | server_statements server_statement
 
     8 server_statement: root
@@ -33,12 +33,12 @@ Grammar
    15 error_page: ERROR_PAGE error_num PATH SEMICOLON
    16           | ERROR_PAGE error_num EQUAL PATH SEMICOLON
 
-   17 error_num: /* empty */
+   17 error_num: %empty
    18          | error_num NUMBER
 
    19 location_block: LOCATION PATH OBRACE location_statements EBRACE
 
-   20 location_statements: /* empty */
+   20 location_statements: %empty
    21                    | location_statements location_statement
 
    22 location_statement: autoindex
@@ -48,7 +48,7 @@ Grammar
 
    26 limit_except: LIMIT_EXCEPT what_to_except SEMICOLON
 
-   27 what_to_except: /* empty */
+   27 what_to_except: %empty
    28               | what_to_except HTTP_METHOD
 
    29 autoindex: AUTOINDEX STATE SEMICOLON
@@ -59,89 +59,103 @@ Grammar
    32               | IP
    33               | NUMBER
 
-   34 server_name: SERVER_NAME server_names SEMICOLON
+   34 server_name: SERVER_NAME PATH PATH SEMICOLON
 
-   35 server_names: /* empty */
-   36             | server_names PATH
-
-   37 client_max_body_size: CLIENT_MAX_BODY_SIZE NUMBER SEMICOLON
+   35 client_max_body_size: CLIENT_MAX_BODY_SIZE NUMBER SEMICOLON
 
 
 Terminals, with rules where they appear
 
-$end (0) 0
-error (256)
-HTTP_METHOD (258) 28
-STATE (259) 29
-COLON (260) 31
-IP (261) 31 32
-AUTOINDEX (262) 29
-PATH (263) 14 15 16 19 36
-NUMBER (264) 18 31 33 37
-ROOT (265) 14
-LIMIT_EXCEPT (266) 26
-EQUAL (267) 16
-SERVER (268) 4
-LISTEN (269) 30
-SERVER_NAME (270) 34
-LOCATION (271) 19
-ERROR_PAGE (272) 15 16
-CLIENT_MAX_BODY_SIZE (273) 37
-WORD (274)
-FILENAME (275)
-QUOTE (276)
-OBRACE (277) 5 19
-EBRACE (278) 5 19
-SEMICOLON (279) 14 15 16 26 29 30 34 37
+    $end (0) 0
+    error (256)
+    QUOTE (258)
+    OBRACE (259) 5 19
+    EBRACE (260) 5 19
+    SEMICOLON (261) 14 15 16 26 29 30 34 35
+    COLON (262) 31
+    HTTP_METHOD (263) 28
+    NUMBER (264) 18 31 33 35
+    WORD (265)
+    STATE (266) 29
+    EQUAL (267) 16
+    SERVER (268) 4
+    LISTEN (269) 30
+    SERVER_NAME (270) 34
+    LOCATION (271) 19
+    ERROR_PAGE (272) 15 16
+    CLIENT_MAX_BODY_SIZE (273) 35
+    IP (274) 31 32
+    AUTOINDEX (275) 29
+    PATH (276) 14 15 16 19 34
+    ROOT (277) 14
+    LIMIT_EXCEPT (278) 26
+    FILENAME (279)
 
 
 Nonterminals, with rules where they appear
 
-$accept (25)
-    on left: 0
-commands (26)
-    on left: 1 2, on right: 0 2
-command (27)
-    on left: 3, on right: 2
-server_start (28)
-    on left: 4, on right: 3
-server_content (29)
-    on left: 5, on right: 4
-server_statements (30)
-    on left: 6 7, on right: 5 7
-server_statement (31)
-    on left: 8 9 10 11 12 13, on right: 7
-root (32)
-    on left: 14, on right: 8 23
-error_page (33)
-    on left: 15 16, on right: 9 25
-error_num (34)
-    on left: 17 18, on right: 15 16 18
-location_block (35)
-    on left: 19, on right: 10
-location_statements (36)
-    on left: 20 21, on right: 19 21
-location_statement (37)
-    on left: 22 23 24 25, on right: 21
-limit_except (38)
-    on left: 26, on right: 24
-what_to_except (39)
-    on left: 27 28, on right: 26 28
-autoindex (40)
-    on left: 29, on right: 22
-listen (41)
-    on left: 30, on right: 11
-what_to_listen (42)
-    on left: 31 32 33, on right: 30
-server_name (43)
-    on left: 34, on right: 12
-server_names (44)
-    on left: 35 36, on right: 34 36
-client_max_body_size (45)
-    on left: 37, on right: 13
+    $accept (25)
+        on left: 0
+    commands (26)
+        on left: 1 2
+        on right: 0 2
+    command (27)
+        on left: 3
+        on right: 2
+    server_start (28)
+        on left: 4
+        on right: 3
+    server_content (29)
+        on left: 5
+        on right: 4
+    server_statements (30)
+        on left: 6 7
+        on right: 5 7
+    server_statement (31)
+        on left: 8 9 10 11 12 13
+        on right: 7
+    root (32)
+        on left: 14
+        on right: 8 23
+    error_page (33)
+        on left: 15 16
+        on right: 9 25
+    error_num (34)
+        on left: 17 18
+        on right: 15 16 18
+    location_block (35)
+        on left: 19
+        on right: 10
+    location_statements (36)
+        on left: 20 21
+        on right: 19 21
+    location_statement (37)
+        on left: 22 23 24 25
+        on right: 21
+    limit_except (38)
+        on left: 26
+        on right: 24
+    what_to_except (39)
+        on left: 27 28
+        on right: 26 28
+    autoindex (40)
+        on left: 29
+        on right: 22
+    listen (41)
+        on left: 30
+        on right: 11
+    what_to_listen (42)
+        on left: 31 32 33
+        on right: 30
+    server_name (43)
+        on left: 34
+        on right: 12
+    client_max_body_size (44)
+        on left: 35
+        on right: 13
 
 
-state 0
+State 0
 
     0 $accept: . commands $end
 
@@ -150,7 +164,7 @@ state 0
     commands  go to state 1
 
 
-state 1
+State 1
 
     0 $accept: commands . $end
     2 commands: commands . command
@@ -162,14 +176,14 @@ state 1
     server_start  go to state 5
 
 
-state 2
+State 2
 
     0 $accept: commands $end .
 
     $default  accept
 
 
-state 3
+State 3
 
     4 server_start: SERVER . server_content
 
@@ -178,21 +192,21 @@ state 3
     server_content  go to state 7
 
 
-state 4
+State 4
 
     2 commands: commands command .
 
     $default  reduce using rule 2 (commands)
 
 
-state 5
+State 5
 
     3 command: server_start .
 
     $default  reduce using rule 3 (command)
 
 
-state 6
+State 6
 
     5 server_content: OBRACE . server_statements EBRACE
 
@@ -201,25 +215,25 @@ state 6
     server_statements  go to state 8
 
 
-state 7
+State 7
 
     4 server_start: SERVER server_content .
 
     $default  reduce using rule 4 (server_start)
 
 
-state 8
+State 8
 
     5 server_content: OBRACE server_statements . EBRACE
     7 server_statements: server_statements . server_statement
 
-    ROOT                  shift, and go to state 9
+    EBRACE                shift, and go to state 9
     LISTEN                shift, and go to state 10
     SERVER_NAME           shift, and go to state 11
     LOCATION              shift, and go to state 12
     ERROR_PAGE            shift, and go to state 13
     CLIENT_MAX_BODY_SIZE  shift, and go to state 14
-    EBRACE                shift, and go to state 15
+    ROOT                  shift, and go to state 15
 
     server_statement      go to state 16
     root                  go to state 17
@@ -230,213 +244,195 @@ state 8
     client_max_body_size  go to state 22
 
 
-state 9
-
-   14 root: ROOT . PATH SEMICOLON
-
-    PATH  shift, and go to state 23
-
-
-state 10
-
-   30 listen: LISTEN . what_to_listen SEMICOLON
-
-    IP      shift, and go to state 24
-    NUMBER  shift, and go to state 25
-
-    what_to_listen  go to state 26
-
-
-state 11
-
-   34 server_name: SERVER_NAME . server_names SEMICOLON
-
-    $default  reduce using rule 35 (server_names)
-
-    server_names  go to state 27
-
-
-state 12
-
-   19 location_block: LOCATION . PATH OBRACE location_statements EBRACE
-
-    PATH  shift, and go to state 28
-
-
-state 13
-
-   15 error_page: ERROR_PAGE . error_num PATH SEMICOLON
-   16           | ERROR_PAGE . error_num EQUAL PATH SEMICOLON
-
-    $default  reduce using rule 17 (error_num)
-
-    error_num  go to state 29
-
-
-state 14
-
-   37 client_max_body_size: CLIENT_MAX_BODY_SIZE . NUMBER SEMICOLON
-
-    NUMBER  shift, and go to state 30
-
-
-state 15
+State 9
 
     5 server_content: OBRACE server_statements EBRACE .
 
     $default  reduce using rule 5 (server_content)
 
 
-state 16
+State 10
+
+   30 listen: LISTEN . what_to_listen SEMICOLON
+
+    NUMBER  shift, and go to state 23
+    IP      shift, and go to state 24
+
+    what_to_listen  go to state 25
+
+
+State 11
+
+   34 server_name: SERVER_NAME . PATH PATH SEMICOLON
+
+    PATH  shift, and go to state 26
+
+
+State 12
+
+   19 location_block: LOCATION . PATH OBRACE location_statements EBRACE
+
+    PATH  shift, and go to state 27
+
+
+State 13
+
+   15 error_page: ERROR_PAGE . error_num PATH SEMICOLON
+   16           | ERROR_PAGE . error_num EQUAL PATH SEMICOLON
+
+    $default  reduce using rule 17 (error_num)
+
+    error_num  go to state 28
+
+
+State 14
+
+   35 client_max_body_size: CLIENT_MAX_BODY_SIZE . NUMBER SEMICOLON
+
+    NUMBER  shift, and go to state 29
+
+
+State 15
+
+   14 root: ROOT . PATH SEMICOLON
+
+    PATH  shift, and go to state 30
+
+
+State 16
 
     7 server_statements: server_statements server_statement .
 
     $default  reduce using rule 7 (server_statements)
 
 
-state 17
+State 17
 
     8 server_statement: root .
 
     $default  reduce using rule 8 (server_statement)
 
 
-state 18
+State 18
 
     9 server_statement: error_page .
 
     $default  reduce using rule 9 (server_statement)
 
 
-state 19
+State 19
 
    10 server_statement: location_block .
 
     $default  reduce using rule 10 (server_statement)
 
 
-state 20
+State 20
 
    11 server_statement: listen .
 
     $default  reduce using rule 11 (server_statement)
 
 
-state 21
+State 21
 
    12 server_statement: server_name .
 
     $default  reduce using rule 12 (server_statement)
 
 
-state 22
+State 22
 
    13 server_statement: client_max_body_size .
 
     $default  reduce using rule 13 (server_statement)
 
 
-state 23
-
-   14 root: ROOT PATH . SEMICOLON
-
-    SEMICOLON  shift, and go to state 31
-
-
-state 24
-
-   31 what_to_listen: IP . COLON NUMBER
-   32               | IP .
-
-    COLON  shift, and go to state 32
-
-    $default  reduce using rule 32 (what_to_listen)
-
-
-state 25
+State 23
 
    33 what_to_listen: NUMBER .
 
     $default  reduce using rule 33 (what_to_listen)
 
 
-state 26
+State 24
+
+   31 what_to_listen: IP . COLON NUMBER
+   32               | IP .
+
+    COLON  shift, and go to state 31
+
+    $default  reduce using rule 32 (what_to_listen)
+
+
+State 25
 
    30 listen: LISTEN what_to_listen . SEMICOLON
 
-    SEMICOLON  shift, and go to state 33
+    SEMICOLON  shift, and go to state 32
 
 
-state 27
+State 26
 
-   34 server_name: SERVER_NAME server_names . SEMICOLON
-   36 server_names: server_names . PATH
+   34 server_name: SERVER_NAME PATH . PATH SEMICOLON
 
-    PATH       shift, and go to state 34
-    SEMICOLON  shift, and go to state 35
+    PATH  shift, and go to state 33
 
 
-state 28
+State 27
 
    19 location_block: LOCATION PATH . OBRACE location_statements EBRACE
 
-    OBRACE  shift, and go to state 36
+    OBRACE  shift, and go to state 34
 
 
-state 29
+State 28
 
    15 error_page: ERROR_PAGE error_num . PATH SEMICOLON
    16           | ERROR_PAGE error_num . EQUAL PATH SEMICOLON
    18 error_num: error_num . NUMBER
 
+    NUMBER  shift, and go to state 35
+    EQUAL   shift, and go to state 36
     PATH    shift, and go to state 37
-    NUMBER  shift, and go to state 38
-    EQUAL   shift, and go to state 39
 
 
-state 30
+State 29
 
-   37 client_max_body_size: CLIENT_MAX_BODY_SIZE NUMBER . SEMICOLON
+   35 client_max_body_size: CLIENT_MAX_BODY_SIZE NUMBER . SEMICOLON
 
-    SEMICOLON  shift, and go to state 40
-
-
-state 31
-
-   14 root: ROOT PATH SEMICOLON .
-
-    $default  reduce using rule 14 (root)
+    SEMICOLON  shift, and go to state 38
 
 
-state 32
+State 30
+
+   14 root: ROOT PATH . SEMICOLON
+
+    SEMICOLON  shift, and go to state 39
+
+
+State 31
 
    31 what_to_listen: IP COLON . NUMBER
 
-    NUMBER  shift, and go to state 41
+    NUMBER  shift, and go to state 40
 
 
-state 33
+State 32
 
    30 listen: LISTEN what_to_listen SEMICOLON .
 
     $default  reduce using rule 30 (listen)
 
 
-state 34
+State 33
 
-   36 server_names: server_names PATH .
+   34 server_name: SERVER_NAME PATH PATH . SEMICOLON
 
-    $default  reduce using rule 36 (server_names)
-
-
-state 35
-
-   34 server_name: SERVER_NAME server_names SEMICOLON .
-
-    $default  reduce using rule 34 (server_name)
+    SEMICOLON  shift, and go to state 41
 
 
-state 36
+State 34
 
    19 location_block: LOCATION PATH OBRACE . location_statements EBRACE
 
@@ -445,51 +441,65 @@ state 36
     location_statements  go to state 42
 
 
-state 37
-
-   15 error_page: ERROR_PAGE error_num PATH . SEMICOLON
-
-    SEMICOLON  shift, and go to state 43
-
-
-state 38
+State 35
 
    18 error_num: error_num NUMBER .
 
     $default  reduce using rule 18 (error_num)
 
 
-state 39
+State 36
 
    16 error_page: ERROR_PAGE error_num EQUAL . PATH SEMICOLON
 
-    PATH  shift, and go to state 44
+    PATH  shift, and go to state 43
 
 
-state 40
+State 37
 
-   37 client_max_body_size: CLIENT_MAX_BODY_SIZE NUMBER SEMICOLON .
+   15 error_page: ERROR_PAGE error_num PATH . SEMICOLON
 
-    $default  reduce using rule 37 (client_max_body_size)
+    SEMICOLON  shift, and go to state 44
 
 
-state 41
+State 38
+
+   35 client_max_body_size: CLIENT_MAX_BODY_SIZE NUMBER SEMICOLON .
+
+    $default  reduce using rule 35 (client_max_body_size)
+
+
+State 39
+
+   14 root: ROOT PATH SEMICOLON .
+
+    $default  reduce using rule 14 (root)
+
+
+State 40
 
    31 what_to_listen: IP COLON NUMBER .
 
     $default  reduce using rule 31 (what_to_listen)
 
 
-state 42
+State 41
+
+   34 server_name: SERVER_NAME PATH PATH SEMICOLON .
+
+    $default  reduce using rule 34 (server_name)
+
+
+State 42
 
    19 location_block: LOCATION PATH OBRACE location_statements . EBRACE
    21 location_statements: location_statements . location_statement
 
-    AUTOINDEX     shift, and go to state 45
-    ROOT          shift, and go to state 9
-    LIMIT_EXCEPT  shift, and go to state 46
+    EBRACE        shift, and go to state 45
     ERROR_PAGE    shift, and go to state 13
-    EBRACE        shift, and go to state 47
+    AUTOINDEX     shift, and go to state 46
+    ROOT          shift, and go to state 15
+    LIMIT_EXCEPT  shift, and go to state 47
 
     root                go to state 48
     error_page          go to state 49
@@ -498,28 +508,35 @@ state 42
     autoindex           go to state 52
 
 
-state 43
-
-   15 error_page: ERROR_PAGE error_num PATH SEMICOLON .
-
-    $default  reduce using rule 15 (error_page)
-
-
-state 44
+State 43
 
    16 error_page: ERROR_PAGE error_num EQUAL PATH . SEMICOLON
 
     SEMICOLON  shift, and go to state 53
 
 
-state 45
+State 44
+
+   15 error_page: ERROR_PAGE error_num PATH SEMICOLON .
+
+    $default  reduce using rule 15 (error_page)
+
+
+State 45
+
+   19 location_block: LOCATION PATH OBRACE location_statements EBRACE .
+
+    $default  reduce using rule 19 (location_block)
+
+
+State 46
 
    29 autoindex: AUTOINDEX . STATE SEMICOLON
 
     STATE  shift, and go to state 54
 
 
-state 46
+State 47
 
    26 limit_except: LIMIT_EXCEPT . what_to_except SEMICOLON
 
@@ -528,87 +545,80 @@ state 46
     what_to_except  go to state 55
 
 
-state 47
-
-   19 location_block: LOCATION PATH OBRACE location_statements EBRACE .
-
-    $default  reduce using rule 19 (location_block)
-
-
-state 48
+State 48
 
    23 location_statement: root .
 
     $default  reduce using rule 23 (location_statement)
 
 
-state 49
+State 49
 
    25 location_statement: error_page .
 
     $default  reduce using rule 25 (location_statement)
 
 
-state 50
+State 50
 
    21 location_statements: location_statements location_statement .
 
     $default  reduce using rule 21 (location_statements)
 
 
-state 51
+State 51
 
    24 location_statement: limit_except .
 
     $default  reduce using rule 24 (location_statement)
 
 
-state 52
+State 52
 
    22 location_statement: autoindex .
 
     $default  reduce using rule 22 (location_statement)
 
 
-state 53
+State 53
 
    16 error_page: ERROR_PAGE error_num EQUAL PATH SEMICOLON .
 
     $default  reduce using rule 16 (error_page)
 
 
-state 54
+State 54
 
    29 autoindex: AUTOINDEX STATE . SEMICOLON
 
     SEMICOLON  shift, and go to state 56
 
 
-state 55
+State 55
 
    26 limit_except: LIMIT_EXCEPT what_to_except . SEMICOLON
    28 what_to_except: what_to_except . HTTP_METHOD
 
-    HTTP_METHOD  shift, and go to state 57
-    SEMICOLON    shift, and go to state 58
+    SEMICOLON    shift, and go to state 57
+    HTTP_METHOD  shift, and go to state 58
 
 
-state 56
+State 56
 
    29 autoindex: AUTOINDEX STATE SEMICOLON .
 
     $default  reduce using rule 29 (autoindex)
 
 
-state 57
-
-   28 what_to_except: what_to_except HTTP_METHOD .
-
-    $default  reduce using rule 28 (what_to_except)
-
-
-state 58
+State 57
 
    26 limit_except: LIMIT_EXCEPT what_to_except SEMICOLON .
 
     $default  reduce using rule 26 (limit_except)
+
+
+State 58
+
+   28 what_to_except: what_to_except HTTP_METHOD .
+
+    $default  reduce using rule 28 (what_to_except)
